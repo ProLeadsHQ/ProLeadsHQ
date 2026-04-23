@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProspectVault — Premium Lead Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ec;
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --dark: #111111;
+      --gray: #2a2a2a;
+      --text-muted: #888;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 4rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(201,168,76,0.15);
+    }
+
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+    }
+
+    .nav-cta {
+      background: var(--gold);
+      color: var(--black);
+      padding: 0.6rem 1.6rem;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--gold-light); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      max-width: 900px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+
+    .hero h1 span {
+      color: var(--gold);
+      display: block;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.5vw, 1.25rem);
+      color: #aaa;
+      max-width: 520px;
+      margin-top: 2rem;
+      line-height: 1.7;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--black);
+      padding: 1rem 2.5rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    .btn-secondary {
+      border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold);
+      padding: 1rem 2.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-block;
+    }
+    .btn-secondary:hover { border-color: var(--gold); background: rgba(201,168,76,0.05); }
+
+    .hero-stats {
+      display: flex;
+      gap: 4rem;
+      margin-top: 5rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1s;
+    }
+
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    /* PROBLEM */
+    .section {
+      padding: 7rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .problem {
+      background: var(--dark);
+      border-left: 3px solid var(--gold);
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .problem h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+
+    .problem-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .problem-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .problem-list li::before {
+      content: '—';
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    /* HOW IT WORKS */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      margin-top: 4rem;
+    }
+
+    .step {
+      background: var(--gray);
+      padding: 2.5rem 2rem;
+      position: relative;
+      transition: background 0.3s;
+    }
+    .step:hover { background: #333; }
+
+    .step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem;
+      color: rgba(201,168,76,0.15);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .step h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .step p {
+      font-size: 0.9rem;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    /* PRICING */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 4rem;
+    }
+
+    .tier {
+      background: var(--gray);
+      padding: 3rem 2.5rem;
+      position: relative;
+      transition: transform 0.3s;
+    }
+    .tier:hover { transform: translateY(-6px); }
+
+    .tier.featured {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .tier-badge {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      background: var(--black);
+      color: var(--gold);
+      padding: 0.3rem 0.8rem;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    .tier.featured .tier-badge {
+      background: var(--black);
+      color: var(--gold);
+    }
+
+    .tier-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .tier-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .tier-per {
+      font-size: 0.8rem;
+      opacity: 0.6;
+      margin-bottom: 2rem;
+    }
+
+    .tier-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .tier-features li {
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      line-height: 1.5;
+    }
+
+    .tier-features li::before {
+      content: '✓';
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .tier.featured .tier-features li::before { color: var(--black); }
+    .tier:not(.featured) .tier-features li::before { color: var(--gold); }
+
+    .tier-cta {
+      display: block;
+      text-align: center;
+      padding: 1rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .tier:not(.featured) .tier-cta {
+      border: 1px solid var(--gold);
+      color: var(--gold);
+    }
+    .tier:not(.featured) .tier-cta:hover {
+      background: var(--gold);
+      color: var(--black);
+    }
+
+    .tier.featured .tier-cta {
+      background: var(--black);
+      color: var(--gold);
+    }
+    .tier.featured .tier-cta:hover { background: #1a1a1a; }
+
+    /* WHY */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 4rem;
+    }
+
+    .why-item h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .why-item p {
+      font-size: 0.95rem;
+      color: #999;
+      line-height: 1.7;
+    }
+
+    /* GUARANTEE */
+    .guarantee {
+      background: var(--dark);
+      border: 1px solid rgba(201,168,76,0.2);
+      padding: 4rem;
+      margin: 0 4rem;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .guarantee-icon {
+      font-size: 4rem;
+    }
+
+    .guarantee h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.05em;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .guarantee p {
+      color: #aaa;
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    /* SOCIAL PROOF */
+    .wins-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 4rem;
+    }
+
+    .win-card {
+      background: var(--gray);
+      padding: 2.5rem;
+    }
+
+    .win-quote {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #ccc;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .win-author {
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* CTA FINAL */
+    .cta-final {
+      text-align: center;
+      padding: 8rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-final::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-final h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-final p {
+      font-size: 1.1rem;
+      color: #999;
+      margin-bottom: 3rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .cta-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    footer .logo { font-size: 1.2rem; }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(25px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .hero { padding: 7rem 2rem 4rem; }
+      .section { padding: 5rem 2rem; }
+      .problem-grid, .steps, .pricing-grid, .why-grid, .wins-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-stats { gap: 2rem; flex-wrap: wrap; }
+      .guarantee { margin: 0 2rem; grid-template-columns: 1fr; }
+      .cta-final { padding: 5rem 2rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">ProspectVault</div>
+    <a href="#book" class="nav-cta">Book a Call</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Premium Lead Intelligence for Financial & Insurance Professionals</p>
+    <h1>Stop Cold Calling.<br><span>Start Closing.</span></h1>
+    <p class="hero-sub">Pre-vetted leads for financial advisors and insurance agents — verified, organized, and delivered in 48 hours. No guesswork. No wasted hours. Just results.</p>
+    <div class="hero-actions">
+      <a href="#book" class="btn-primary">Book Your Discovery Call</a>
+      <a href="#pricing" class="btn-secondary">See Pricing</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">48hrs</div>
+        <div class="stat-label">Lead Delivery</div>
+      </div>
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Hand-Verified</div>
+      </div>
+      <div>
+        <div class="stat-num">50–100</div>
+        <div class="stat-label">Leads Per Package</div>
+      </div>
+      <div>
+        <div class="stat-num">0</div>
+        <div class="stat-label">Contract Lock-In</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="section problem">
+    <div class="problem-grid">
+      <div class="reveal">
+        <p class="section-label">The Problem</p>
+        <h2>Cold Calling<br>Is Dead.</h2>
+      </div>
+      <div class="reveal">
+        <ul class="problem-list">
+          <li>You're burning 10+ hours a week chasing unqualified prospects who never convert.</li>
+          <li>Wrong fit, wrong timing, wrong decision-makers — every call is a gamble.</li>
+          <li>Your competitors are closing with warm leads and proven strategies while you're stuck dialing.</li>
+          <li>Generic lead lists are full of outdated contacts, spam traps, and people who left their roles 6 months ago.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <p class="section-label reveal">How It Works</p>
+    <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.5rem,5vw,4rem); letter-spacing:0.02em;" class="reveal">From Sign-Up to<br>Closing in 4 Steps</h2>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3>Choose Your Tier</h3>
+        <p>Select Starter, Pro, or Premium based on your growth goals and budget.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h3>Book a 15-Min Call</h3>
+        <p>We qualify your target market, niche, and location to build your custom lead list.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h3>Receive Your Leads</h3>
+        <p>Verified emails, LinkedIn-confirmed, organized by niche — delivered within 48 hours.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">04</div>
+        <h3>Start Closing</h3>
+        <p>Use our proven pitch templates and follow-up sequences to convert leads into clients.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section" id="pricing" style="background: var(--dark);">
+    <p class="section-label reveal">Pricing</p>
+    <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.5rem,5vw,4rem); letter-spacing:0.02em;" class="reveal">One Investment.<br>Real Results.</h2>
+    <div class="pricing-grid">
+      <div class="tier reveal">
+        <div class="tier-name">Starter</div>
+        <div class="tier-price">$500</div>
+        <div class="tier-per">~$10 per lead · Perfect for testing</div>
+        <ul class="tier-features">
+          <li>50 pre-qualified leads</li>
+          <li>Email + LinkedIn verified</li>
+          <li>Organized by location & niche</li>
+          <li>Delivered within 48 hours</li>
+        </ul>
+        <a href="#book" class="tier-cta">Get Started</a>
+      </div>
+      <div class="tier featured reveal">
+        <div class="tier-badge">Most Popular</div>
+        <div class="tier-name">Pro</div>
+        <div class="tier-price">$1,500</div>
+        <div class="tier-per">50 leads + strategy · Built for growth</div>
+        <ul class="tier-features">
+          <li>50 pre-qualified leads</li>
+          <li>1-hour sales strategy audit</li>
+          <li>Personalized pitch templates</li>
+          <li>Full review of your current approach</li>
+          <li>Email + LinkedIn verified</li>
+        </ul>
+        <a href="#book" class="tier-cta">Get Started</a>
+      </div>
+      <div class="tier reveal">
+        <div class="tier-name">Premium</div>
+        <div class="tier-price">$3,000</div>
+        <div class="tier-per">100 leads + 5-day program · Rapid scaling</div>
+        <ul class="tier-features">
+          <li>100 pre-qualified leads</li>
+          <li>Sales strategy audit included</li>
+          <li>5-day acceleration program</li>
+          <li>Daily strategy tips + proven scripts</li>
+          <li>Full follow-up sequences</li>
+          <li>Direct access for questions</li>
+        </ul>
+        <a href="#book" class="tier-cta">Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUARANTEE -->
+  <div class="guarantee reveal">
+    <div class="guarantee-icon">🛡️</div>
+    <div>
+      <h2>Our Quality Guarantee</h2>
+      <p>Every lead is hand-verified before delivery. If fewer than 80% of your leads are confirmed active in their role, we'll replace them — no questions asked. You're not paying for a list. You're paying for results.</p>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <section class="section">
+    <p class="section-label reveal">Why ProspectVault</p>
+    <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.5rem,5vw,4rem); letter-spacing:0.02em;" class="reveal">Not Just Leads.<br>A Closing System.</h2>
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <h3>Hand-Verified Quality</h3>
+        <p>Every prospect is manually confirmed — active in their role, verified email, decision-making authority. No spam lists, no stale contacts.</p>
+      </div>
+      <div class="why-item reveal">
+        <h3>Strategy Included</h3>
+        <p>Leads are only half the battle. We give you the pitch templates, follow-up sequences, and strategy to close them — not just a spreadsheet.</p>
+      </div>
+      <div class="why-item reveal">
+        <h3>Results in Days</h3>
+        <p>No long ramp-up. No contract lock-in. Leads delivered in 48 hours so you can start outreach immediately and see ROI fast.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section class="section" style="background: var(--dark);">
+    <p class="section-label reveal">Wall of Wins</p>
+    <h2 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(2.5rem,5vw,4rem); letter-spacing:0.02em;" class="reveal">Real Advisors.<br>Real Closes.</h2>
+    <div class="wins-grid">
+      <div class="win-card reveal">
+        <p class="win-quote">"I closed my first deal within 10 days of receiving my leads. The quality was unlike anything I'd used before — these were real people actively looking."</p>
+        <div class="win-author">Financial Advisor · Texas</div>
+      </div>
+      <div class="win-card reveal">
+        <p class="win-quote">"The strategy audit alone was worth the price. They identified two major gaps in my pitch that I'd been blind to for years."</p>
+        <div class="win-author">Insurance Agent · Florida</div>
+      </div>
+      <div class="win-card reveal">
+        <p class="win-quote">"I went from 3 cold calls a day to 15 warm conversations a week. The follow-up templates are gold."</p>
+        <div class="win-author">Independent Advisor · California</div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:3rem; color:#666; font-size:0.9rem;">Close a deal with ProspectVault? <a href="mailto:hello@prospectvault.com" style="color:var(--gold); text-decoration:none;">Share your story →</a></p>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="cta-final" id="book">
+    <h2 class="reveal">Ready to Stop<br>Guessing?</h2>
+    <p class="reveal">Book a free 15-minute discovery call. We'll learn about your market, answer your questions, and show you exactly what's in your lead package before you commit.</p>
+    <a href="mailto:hello@prospectvault.com" class="btn-primary reveal">Book Your Free Discovery Call</a>
+    <p class="cta-note reveal">No pressure. No commitment. Just a conversation.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="logo">ProspectVault</div>
+    <div>© 2026 ProspectVault. All rights reserved.</div>
+    <div><a href="mailto:hello@prospectvault.com" style="color:var(--text-muted); text-decoration:none;">hello@prospectvault.com</a></div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
